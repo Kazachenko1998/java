@@ -14,6 +14,7 @@ public class DirectedGraph {
         }
     }
 
+
     public boolean hasVertex(String vertexName) {
         return vertexMap.containsKey(vertexName);
     }
