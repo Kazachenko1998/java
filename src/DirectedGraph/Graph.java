@@ -8,16 +8,16 @@ import java.util.Arrays;
  */
 public class Graph {
     private final int size;
-    public Object[][] matrix;
+    public int[][] matrix;
 
     public Graph(MatrixSquad m) {//конструктор графа
-        this.matrix = new Object[m.getSize()][m.getSize()];
+        this.matrix = new int[m.getSize()][m.getSize()];
         this.size = m.getSize();
         int i, j;
         for (i = 0; i < size; i++)
             for (j = 0; j < size; j++) {
                 if (m.matrix[i][j] == null) matrix[i][j] = -1;
-                else matrix[i][j] = m.matrix[i][j];
+                else matrix[i][j] = (int) m.matrix[i][j];
             }
         for (i = 0; i < size; i++) {
             if (((int) matrix[i][i] != -1) && ((int) matrix[i][i] != 0))
@@ -26,11 +26,11 @@ public class Graph {
         }
     }
 
-    public Object[][] getMatrix() {
+    public int[][] getMatrix() {
         return matrix;
     }
 
-    public void setMatrix(Object[][] matrix) {
+    public void setMatrix(int[][] matrix) {
         this.matrix = matrix;
     }
 
@@ -75,7 +75,7 @@ public class Graph {
         int i;
         for (i = 0; i < this.getSize() - 1; i++) {
             if ((int) this.matrix[i][point] > 0) {
-                list.add((String) this.matrix[i][point]);
+                list.add(point + " -> " + i + " = " + this.matrix[i][point]);
             }
         }
         return list;
@@ -86,7 +86,7 @@ public class Graph {
         int i;
         for (i = 0; i < this.getSize() - 1; i++) {
             if ((int) this.matrix[point][i] > 0) {
-                list.add((String) this.matrix[point][i]);
+                list.add(i + " -> " + point  +" = " + this.matrix[point][i]);
             }
         }
         return list;
@@ -105,10 +105,10 @@ public class Graph {
         return new Graph(matr);
     }
 
-    public void track(int begin, int end, double value) {
+    public void track(int begin, int end, int value) {
         if ((begin == end) && (begin >= this.getSize()) && (begin < 0) && (end >= this.getSize()) && (end < 0) && (value > 0))
             throw new IllegalArgumentException("Неверные границы или значение");
-        this.matrix[begin][end] = value;
+        this.matrix[end][begin] = value;
     }
 
     public void deleteTrack(int begin, int end) {
@@ -148,6 +148,11 @@ public class Graph {
         System.out.println(g);
         g = g.addPoint();
         System.out.println(g);
+        System.out.println(g.input(2));
+        System.out.println(g.output(2));
+        g.track(0, 2,10);
+        System.out.println(g);
+
         g = g.deletePoint(2);
         System.out.println(g);
 
