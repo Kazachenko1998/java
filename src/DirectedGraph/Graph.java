@@ -1,5 +1,6 @@
 package DirectedGraph;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -9,7 +10,7 @@ public class Graph {
     private final int size;
     public Object[][] matrix;
 
-    public Graph(MatrixSquad m) {//конструктор матрицы
+    public Graph(MatrixSquad m) {//конструктор графа
         this.matrix = new Object[m.getSize()][m.getSize()];
         this.size = m.getSize();
         int i, j;
@@ -20,6 +21,13 @@ public class Graph {
             }
     }
 
+    public Object[][] getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(Object[][] matrix) {
+        this.matrix = matrix;
+    }
 
     public int getSize() {
         return size;
@@ -30,10 +38,10 @@ public class Graph {
         if (this == o) return true;
         if (!(o instanceof Graph)) return false;
 
-        Graph that = (Graph) o;
+        Graph graph = (Graph) o;
 
-        if (getSize() != that.getSize()) return false;
-        return Arrays.deepEquals(matrix, that.matrix);
+        if (getSize() != graph.getSize()) return false;
+        return Arrays.deepEquals(matrix, graph.matrix);
     }
 
     @Override
@@ -43,6 +51,7 @@ public class Graph {
         return result;
     }
 
+    @Override
     public String toString() {//вывод в консоли
         int i, j;
         StringBuilder sb = new StringBuilder();
@@ -57,6 +66,27 @@ public class Graph {
         return sb.toString();
     }
 
+    public ArrayList output(int point) {
+        ArrayList<String> list = new ArrayList<String>();
+        int i;
+        for (i = 0; i < this.getSize() - 1; i++) {
+            if ((int) this.matrix[i][point] > 0) {
+                list.add((String) this.matrix[i][point]);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList input(int point) {
+        ArrayList<String> list = new ArrayList<String>();
+        int i;
+        for (i = 0; i < this.getSize() - 1; i++) {
+            if ((int) this.matrix[point][i] > 0) {
+                list.add((String) this.matrix[point][i]);
+            }
+        }
+        return list;
+    }
 
     public Graph add() {
 
@@ -78,7 +108,7 @@ public class Graph {
     }
 
     public void deleteTrack(int begin, int end) {
-        this.track(begin,end,-1);
+        this.track(begin, end, -1);
     }
 
 
