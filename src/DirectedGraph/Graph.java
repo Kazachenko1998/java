@@ -19,6 +19,11 @@ public class Graph {
                 if (m.matrix[i][j] == null) matrix[i][j] = -1;
                 else matrix[i][j] = m.matrix[i][j];
             }
+        for (i = 0; i < size; i++) {
+            if (((int) matrix[i][i] != -1) && ((int) matrix[i][i] != 0))
+                throw new IllegalArgumentException("Неверный граф");
+            else matrix[i][i] = 0;
+        }
     }
 
     public Object[][] getMatrix() {
@@ -41,7 +46,7 @@ public class Graph {
         Graph graph = (Graph) o;
 
         if (getSize() != graph.getSize()) return false;
-        return Arrays.deepEquals(matrix, graph.matrix);
+        return Arrays.deepEquals(getMatrix(), graph.getMatrix());
     }
 
     @Override
@@ -55,10 +60,9 @@ public class Graph {
     public String toString() {//вывод в консоли
         int i, j;
         StringBuilder sb = new StringBuilder();
-        for (i = 0; i < size; i++) {
-            for (j = 0; j < size; j++) {
-                if (i == j) sb.append("0" + " ");
-                else if ((int) this.matrix[i][j] != -1) sb.append(this.matrix[i][j] + " ");
+        for (i = 0; i < this.getSize(); i++) {
+            for (j = 0; j < this.getSize(); j++) {
+                if ((int) this.matrix[i][j] != -1) sb.append(this.matrix[i][j] + " ");
                 else sb.append("- ");
             }
             sb.append("\n");
@@ -88,7 +92,7 @@ public class Graph {
         return list;
     }
 
-    public Graph add() {
+    public Graph addPoint() {
 
         MatrixSquad matr = new MatrixSquad(this.getSize() + 1, -1);
         int i, j;
@@ -103,12 +107,32 @@ public class Graph {
 
     public void track(int begin, int end, double value) {
         if ((begin == end) && (begin >= this.getSize()) && (begin < 0) && (end >= this.getSize()) && (end < 0) && (value > 0))
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("Неверные границы или значение");
         this.matrix[begin][end] = value;
     }
 
     public void deleteTrack(int begin, int end) {
         this.track(begin, end, -1);
+    }
+
+    public Graph deletePoint(int Point) {//работает
+        if ((Point >= this.getSize()) && (Point < 0))
+            throw new IllegalArgumentException("Неверная граница");
+        MatrixSquad matr = new MatrixSquad(this.getSize() - 1, -1);
+        int i, j, k, p, max;
+        i = 0;
+        max = matr.getSize();
+        for (k = 0; k < max; k++) {
+            j = 0;
+            for (p = 0; p < max; p++) {
+                if ((p != Point) && (k != Point)) {
+                    matr.matrix[i][j] = this.matrix[k][p];
+                    j++;
+                }
+            }
+            if ((k != Point)) i++;
+        }
+        return new Graph(matr);
     }
 
 
@@ -122,7 +146,9 @@ public class Graph {
         graph.matrix[2][1] = 6;
         Graph g = new Graph(graph);
         System.out.println(g);
-        g = g.add();
+        g = g.addPoint();
+        System.out.println(g);
+        g = g.deletePoint(2);
         System.out.println(g);
 
     }
