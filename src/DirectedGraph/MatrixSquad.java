@@ -2,9 +2,6 @@ package DirectedGraph;
 
 import java.util.Arrays;
 
-/**
- * Created by Konstantin on 13.02.2017.
- */
 public class MatrixSquad {
     private final int size;
     public Object[][] matrix;

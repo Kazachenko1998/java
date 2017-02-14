@@ -3,12 +3,9 @@ package DirectedGraph;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by Konstantin on 13.02.2017.
- */
 public class Graph {
     private final int size;
-    public int[][] matrix;
+    private int[][] matrix;
 
     public Graph(MatrixSquad m) {//конструктор графа
         this.matrix = new int[m.getSize()][m.getSize()];
@@ -20,7 +17,7 @@ public class Graph {
                 else matrix[i][j] = (int) m.matrix[i][j];
             }
         for (i = 0; i < size; i++) {
-            if (((int) matrix[i][i] != -1) && ((int) matrix[i][i] != 0))
+            if (( matrix[i][i] != -1) && ( matrix[i][i] != 0))
                 throw new IllegalArgumentException("Неверный граф");
             else matrix[i][i] = 0;
         }
@@ -62,7 +59,7 @@ public class Graph {
         StringBuilder sb = new StringBuilder();
         for (i = 0; i < this.getSize(); i++) {
             for (j = 0; j < this.getSize(); j++) {
-                if ((int) this.matrix[i][j] != -1) sb.append(this.matrix[i][j] + " ");
+                if ( this.matrix[i][j] != -1) sb.append(this.matrix[i][j] + " ");
                 else sb.append("- ");
             }
             sb.append("\n");
@@ -71,10 +68,10 @@ public class Graph {
     }
 
     public ArrayList output(int point) {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         int i;
         for (i = 0; i < this.getSize() - 1; i++) {
-            if ((int) this.matrix[i][point] > 0) {
+            if ( this.matrix[i][point] > 0) {
                 list.add(point + " -> " + i + " = " + this.matrix[i][point]);
             }
         }
@@ -82,11 +79,11 @@ public class Graph {
     }
 
     public ArrayList input(int point) {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         int i;
         for (i = 0; i < this.getSize() - 1; i++) {
-            if ((int) this.matrix[point][i] > 0) {
-                list.add(i + " -> " + point  +" = " + this.matrix[point][i]);
+            if ( this.matrix[point][i] > 0) {
+                list.add(i + " -> " + point + " = " + this.matrix[point][i]);
             }
         }
         return list;
@@ -105,14 +102,14 @@ public class Graph {
         return new Graph(matr);
     }
 
-    public void track(int begin, int end, int value) {
+    public void addTrack(int begin, int end, int value) {
         if ((begin == end) && (begin >= this.getSize()) && (begin < 0) && (end >= this.getSize()) && (end < 0) && (value > 0))
             throw new IllegalArgumentException("Неверные границы или значение");
         this.matrix[end][begin] = value;
     }
 
     public void deleteTrack(int begin, int end) {
-        this.track(begin, end, -1);
+        this.addTrack(begin, end, -1);
     }
 
     public Graph deletePoint(int Point) {//работает
@@ -150,7 +147,6 @@ public class Graph {
         System.out.println(g);
         System.out.println(g.input(2));
         System.out.println(g.output(2));
-        g.track(0, 2,10);
         System.out.println(g);
 
         g = g.deletePoint(2);

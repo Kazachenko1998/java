@@ -1,7 +1,5 @@
 package DirectedGraph;
 
-import java.util.Arrays;
-
 public class Matrix {
     public static void main(String[] D) {
         int m = 2;
