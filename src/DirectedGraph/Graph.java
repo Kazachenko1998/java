@@ -17,12 +17,11 @@ public class Graph {
                 else matrix[i][j] = (int) m.matrix[i][j];
             }
         for (i = 0; i < size; i++) {
-            if (( matrix[i][i] != -1) && ( matrix[i][i] != 0))
+            if ((matrix[i][i] != -1) && (matrix[i][i] != 0))
                 throw new IllegalArgumentException("Неверный граф");
             else matrix[i][i] = 0;
         }
     }
-
     public int[][] getMatrix() {
         return matrix;
     }
@@ -55,12 +54,54 @@ public class Graph {
 
     @Override
     public String toString() {//вывод в консоли
-        int i, j;
+        int i, j, k, p;
         StringBuilder sb = new StringBuilder();
+        sb.append("    ");
         for (i = 0; i < this.getSize(); i++) {
+            sb.append("|" + i);
+            p = i;
+            k = 0;
+            while (p > 0) {
+                p /= 10;
+                k++;
+            }
+            if (k == 0) k = 1;
+            for (p = 0; p < 4 - k; p++) {
+                sb.append(" ");
+            }
+        }
+        sb.append("|" + "\n");
+        for (i = 0; i < this.getSize() * 5 + 5; i++) {
+            sb.append("_");
+        }
+        sb.append("\n");
+        for (i = 0; i < this.getSize(); i++) {
+            sb.append(i);
+            p = i;
+            k = 0;
+            while (p > 0) {
+                p /= 10;
+                k++;
+            }
+            if (k == 0) k = 1;
+            for (p = 0; p < 4 - k; p++) {
+                sb.append(" ");
+            }
+            sb.append("|");
             for (j = 0; j < this.getSize(); j++) {
-                if ( this.matrix[i][j] != -1) sb.append(this.matrix[i][j] + " ");
-                else sb.append("- ");
+                if (this.matrix[i][j] > -1) {
+                    sb.append(this.matrix[i][j]);
+                    p = this.matrix[i][j];
+                    k = 0;
+                    while (p > 0) {
+                        p /= 10;
+                        k++;
+                    }
+                    if (k == 0) k = 1;
+                    for (p = 0; p < 5 - k; p++) {
+                        sb.append(" ");
+                    }
+                } else sb.append("-    ");
             }
             sb.append("\n");
         }
@@ -71,7 +112,7 @@ public class Graph {
         ArrayList<String> list = new ArrayList<>();
         int i;
         for (i = 0; i < this.getSize() - 1; i++) {
-            if ( this.matrix[i][point] > 0) {
+            if (this.matrix[i][point] > 0) {
                 list.add(point + " -> " + i + " = " + this.matrix[i][point]);
             }
         }
@@ -82,7 +123,7 @@ public class Graph {
         ArrayList<String> list = new ArrayList<>();
         int i;
         for (i = 0; i < this.getSize() - 1; i++) {
-            if ( this.matrix[point][i] > 0) {
+            if (this.matrix[point][i] > 0) {
                 list.add(i + " -> " + point + " = " + this.matrix[point][i]);
             }
         }
@@ -134,12 +175,12 @@ public class Graph {
 
 
     public static void main(String[] D) {
-        MatrixSquad graph = new MatrixSquad(4, -1);
+        MatrixSquad graph = new MatrixSquad(13, -1);
         graph.matrix[0][1] = 1;
         graph.matrix[1][2] = 2;
-        graph.matrix[3][2] = 3;
-        graph.matrix[1][3] = 4;
-        graph.matrix[0][3] = 5;
+        graph.matrix[3][2] = 3777;
+        graph.matrix[1][3] = 47;
+        graph.matrix[0][3] = 599;
         graph.matrix[2][1] = 6;
         Graph g = new Graph(graph);
         System.out.println(g);
@@ -148,9 +189,7 @@ public class Graph {
         System.out.println(g.input(2));
         System.out.println(g.output(2));
         System.out.println(g);
-
         g = g.deletePoint(2);
         System.out.println(g);
-
     }
 }

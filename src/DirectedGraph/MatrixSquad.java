@@ -17,6 +17,10 @@ public class MatrixSquad {
             }
     }
 
+    public void setMatrix(Object[][] matrix) {
+        this.matrix = matrix;
+    }
+
     public int getSize() {
         return size;
     }
