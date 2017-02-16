@@ -1,10 +1,7 @@
 package DirectedGraph;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Graph {
     private final int size;
@@ -19,6 +16,14 @@ public class Graph {
                 if (m.matrix[i][j] == null) matrix[i][j] = -1;
                 else matrix[i][j] = m.matrix[i][j];
             }
+try {for (i = 0; i < size; i++)
+        for (j = 0; j < size; j++) {
+            if ((i!=j)&&((int)matrix[i][j]<-1)) throw new IllegalArgumentException("Неверная дорога") ;
+        }
+} catch (ClassCastException e){
+throw new IllegalArgumentException("Неверная дорога");
+}
+
         for (i = 0; i < size; i++)
         if (this.matrix[i][i]==null) this.matrix[i][i]=i ;
         Set<String> name = new HashSet<>();
@@ -144,11 +149,11 @@ public class Graph {
 
     public void addTrack(String begin, String end, int value) {
         int i,end1=-1,begin1=-1;
-        for (i=0;i<this.getSize()-1;i++){
+        for (i=0;i<this.getSize();i++){
             if (this.matrix[i][i]==begin) begin1=i;
             if (this.matrix[i][i]==end) end1=i;
         }
-        if ((begin == end)  && (value < 0)&&(end1==-1)&&(begin1==-1))
+        if ((begin == end)  || (value < -1)||(end1==-1)||(begin1==-1))
             throw new IllegalArgumentException("Неверные границы или значение");
         this.matrix[end1][begin1] = value;
     }
@@ -159,13 +164,15 @@ public class Graph {
 
     public void renamePoint(String old, String now) {
         int i,end1=-1;
-        for (i=0;i<this.getSize()-1;i++){
+        for (i=0;i<this.getSize();i++){
             if (this.matrix[i][i]==old) end1=i;
         }
         if (end1==-1)
             throw new IllegalArgumentException("Неверные границы или значение");
-
         this.matrix[end1][end1] = now;
+        Set<String> name = new HashSet<>();
+        for (i = 0; i < size; i++) name.add(this.matrix[i][i].toString());
+        if (name.size()!=this.getSize()) throw new IllegalArgumentException("Повторение имени");
     }
 
 
@@ -181,7 +188,7 @@ public class Graph {
         MatrixSquad matr = new MatrixSquad(this.getSize() - 1, -1);
         int  j, k, p, max;
         i = 0;
-        max = matr.getSize();
+        max = matr.getSize()+1;
         for (k = 0; k < max; k++) {
             j = 0;
             for (p = 0; p < max; p++) {
