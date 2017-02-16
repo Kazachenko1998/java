@@ -15,20 +15,23 @@ public class Graph {
             for (j = 0; j < size; j++) {
                 if (m.matrix[i][j] == null) matrix[i][j] = -1;
                 else matrix[i][j] = m.matrix[i][j];
+                if ((i == j) && (m.matrix[i][j] == null)) matrix[i][j] = i;
             }
-try {for (i = 0; i < size; i++)
-        for (j = 0; j < size; j++) {
-            if ((i!=j)&&((int)matrix[i][j]<-1)) throw new IllegalArgumentException("Неверная дорога") ;
+        try {
+            for (i = 0; i < size; i++)
+                for (j = 0; j < size; j++) {
+                    if ((i != j) && ((int) matrix[i][j] < -1))
+                        throw new IllegalArgumentException("Отрицательная дорога");
+                }
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("Дорога это число!");
         }
-} catch (ClassCastException e){
-throw new IllegalArgumentException("Неверная дорога");
-}
 
         for (i = 0; i < size; i++)
-        if (this.matrix[i][i]==null) this.matrix[i][i]=i ;
+            if (this.matrix[i][i] == null) this.matrix[i][i] = i;
         Set<String> name = new HashSet<>();
-            for (i = 0; i < size; i++) name.add(this.matrix[i][i].toString());
-    if (name.size()!=this.getSize()) throw new IllegalArgumentException("Повторение имени");
+        for (i = 0; i < size; i++) name.add(this.matrix[i][i].toString());
+        if (name.size() != this.getSize()) throw new IllegalArgumentException("Повторение имени");
     }
 
     public Object[][] getMatrix() {
@@ -84,7 +87,7 @@ throw new IllegalArgumentException("Неверная дорога");
             }
             sb.append("|");
             for (j = 0; j < this.getSize(); j++) {
-                if ((i!=j)&&((int) this.matrix[i][j] > -1)) {
+                if ((i != j) && ((int) this.matrix[i][j] > -1)) {
                     sb.append(this.matrix[i][j]);
                     p = (int) this.matrix[i][j];
                     k = 0;
@@ -104,15 +107,15 @@ throw new IllegalArgumentException("Неверная дорога");
     }
 
     public ArrayList output(String k) {
-        int i,point;
+        int i, point;
         point = -1;
-        for (i=0;i<this.getSize() - 1;i++){
+        for (i = 0; i < this.getSize() - 1; i++) {
             if (this.matrix[i][i] == k) point = i;
         }
-        if (point == -1) throw new IllegalArgumentException("Неверное имя");
+        if (point == -1) throw new IllegalArgumentException("Нет такой вершины");
         ArrayList<String> list = new ArrayList<>();
         for (i = 0; i < this.getSize() - 1; i++) {
-            if ((i!=point)&&((int) this.matrix[i][point] > 0)) {
+            if ((i != point) && ((int) this.matrix[i][point] > 0)) {
                 list.add(this.matrix[point][point] + " -> " + this.matrix[i][i] + " = " + this.matrix[i][point]);
             }
         }
@@ -120,15 +123,15 @@ throw new IllegalArgumentException("Неверная дорога");
     }
 
     public ArrayList input(String k) {
-        int i,point;
+        int i, point;
         point = -1;
-        for (i=0;i<this.getSize() - 1;i++){
+        for (i = 0; i < this.getSize() - 1; i++) {
             if (this.matrix[i][i] == k) point = i;
         }
-        if (point == -1) throw new IllegalArgumentException("Неверное имя");
+        if (point == -1) throw new IllegalArgumentException("Нет такой вершины");
         ArrayList<String> list = new ArrayList<>();
         for (i = 0; i < this.getSize() - 1; i++) {
-            if ((i!=point)&&((int) this.matrix[point][i] > 0)) {
+            if ((i != point) && ((int) this.matrix[point][i] > 0)) {
                 list.add(this.matrix[i][i] + " -> " + this.matrix[point][point] + " = " + this.matrix[point][i]);
             }
         }
@@ -148,13 +151,13 @@ throw new IllegalArgumentException("Неверная дорога");
     }
 
     public void addTrack(String begin, String end, int value) {
-        int i,end1=-1,begin1=-1;
-        for (i=0;i<this.getSize();i++){
-            if (this.matrix[i][i]==begin) begin1=i;
-            if (this.matrix[i][i]==end) end1=i;
+        int i, end1 = -1, begin1 = -1;
+        for (i = 0; i < this.getSize(); i++) {
+            if (this.matrix[i][i] == begin) begin1 = i;
+            if (this.matrix[i][i] == end) end1 = i;
         }
-        if ((begin == end)  || (value < -1)||(end1==-1)||(begin1==-1))
-            throw new IllegalArgumentException("Неверные границы или значение");
+        if ((begin == end) || (value < -1) || (end1 == -1) || (begin1 == -1))
+            throw new IllegalArgumentException("Не существует вершины или неверное значение дороги");
         this.matrix[end1][begin1] = value;
     }
 
@@ -163,32 +166,32 @@ throw new IllegalArgumentException("Неверная дорога");
     }
 
     public void renamePoint(String old, String now) {
-        int i,end1=-1;
-        for (i=0;i<this.getSize();i++){
-            if (this.matrix[i][i]==old) end1=i;
+        int i, end1 = -1;
+        for (i = 0; i < this.getSize(); i++) {
+            if (this.matrix[i][i] == old) end1 = i;
         }
-        if (end1==-1)
-            throw new IllegalArgumentException("Неверные границы или значение");
+        if (end1 == -1)
+            throw new IllegalArgumentException("Вершины не существует");
         this.matrix[end1][end1] = now;
         Set<String> name = new HashSet<>();
         for (i = 0; i < size; i++) name.add(this.matrix[i][i].toString());
-        if (name.size()!=this.getSize()) throw new IllegalArgumentException("Повторение имени");
+        if (name.size() != this.getSize()) throw new IllegalArgumentException("Такая вершина уже есть");
     }
 
 
     public Graph deletePoint(String Y) {//работает
-        int i,Point=-1;
-        for (i=0;i<this.getSize();i++){
-            if (this.matrix[i][i]==Y) Point=i;
+        int i, Point = -1;
+        for (i = 0; i < this.getSize(); i++) {
+            if (this.matrix[i][i] == Y) Point = i;
         }
-        if (Point==-1)
-            throw new IllegalArgumentException("Неверные границы или значение");
+        if (Point == -1)
+            throw new IllegalArgumentException("Вершины не существует");
 
 
         MatrixSquad matr = new MatrixSquad(this.getSize() - 1, -1);
-        int  j, k, p, max;
+        int j, k, p, max;
         i = 0;
-        max = matr.getSize()+1;
+        max = matr.getSize() + 1;
         for (k = 0; k < max; k++) {
             j = 0;
             for (p = 0; p < max; p++) {
@@ -203,22 +206,22 @@ throw new IllegalArgumentException("Неверная дорога");
     }
 
     public static void main(String[] D) {
-        MatrixSquad graph = new MatrixSquad(13, -1);
-        graph.matrix[0][1] = 1;
-        graph.matrix[1][2] = 2;
-        graph.matrix[3][2] = 3777;
-        graph.matrix[1][3] = 47;
-        graph.matrix[0][3] = 599;
-        graph.matrix[2][1] = 6;
-        Graph g = new Graph(graph);
-        System.out.println(g);
-       // String x = String.format("%02d", 1);//можно сократить toString
-       /** g = g.addPoint();
-        System.out.println(g);
-        System.out.println(g.input(2));
-        System.out.println(g.output(2));
-        System.out.println(g);
-        g = g.deletePoint(2);
-        System.out.println(g);
-    */}
+        MatrixSquad matr = new MatrixSquad(10, -1);
+        matr.setMatrix(new Object[][]{
+                {"Lena", 2, -1, -1, 8, 2, -1, 2, 1111, -1},
+                {-1, "Kost", 4, 7, -1, 9, 8, 7, 6, 5},
+                {1, -1, "Jeny", 6, -1, -1, -1, -1, -1, 1},
+                {-1, -1, 5, null, -1, 10, -1, null, 2, 9},
+                {-1, 3, -1, 0, "Sany", 9, 10, 3, -1, -1},
+                {0, 2, -1, -1, 8, 2, null, 2, 1111, -1},
+                {-1, 0, 4, 7, -1, 9, 9, null, 9, 9},
+                {1, -1, 0, 6, -1, -1, -1, "big", -1, 1},
+                {-1, -1, 5, null, -1, 10, -1, null, "bye", 9},
+                {-1, 3, -1, 0, 0, 9, 10, 3, -1, "hell"}
+
+        });
+        Graph graph = new Graph(matr);
+        System.out.println(graph);
+        // String x = String.format("%02d", 1);//можно сократить toString
+    }
 }
