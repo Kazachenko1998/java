@@ -205,7 +205,7 @@ public class Graph {
         graph.matrix[2][1] = 6;
         Graph g = new Graph(graph);
         System.out.println(g);
-        String x = String.format("%02d", 1);//можно сократить toString
+       // String x = String.format("%02d", 1);//можно сократить toString
        /** g = g.addPoint();
         System.out.println(g);
         System.out.println(g.input(2));
