@@ -85,14 +85,14 @@ public class Graph {
 
         Graph graph = (Graph) o;
 
-        if (getMatrix() != null ? !getMatrix().equals(graph.getMatrix()) : graph.getMatrix() != null) return false;
-        return getName() != null ? getName().equals(graph.getName()) : graph.getName() == null;
+        if (!getMatrix().equals(graph.getMatrix())) return false;
+        return getName().equals(graph.getName());
     }
 
     @Override
     public int hashCode() {
-        int result = getMatrix() != null ? getMatrix().hashCode() : 0;
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        int result = getMatrix().hashCode();
+        result = 31 * result + getName().hashCode();
         return result;
     }
 
@@ -230,6 +230,10 @@ public class Graph {
     public Graph deleteTrack(String begin, String end) {
         this.addTrack(begin, end, null);
         return new Graph(this.matrix, this.name);
+    }
+
+    public Graph renameTrack(String begin, String end, Integer value) {
+        return new Graph(this.matrix, this.name).addTrack(begin,end,value);
     }
 
     public Graph renamePoint(String old, String now) {
