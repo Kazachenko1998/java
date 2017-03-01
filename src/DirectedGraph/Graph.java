@@ -16,23 +16,7 @@ public class Graph {
         this.name = n;
         //this.size = m.getSize();
         int i;
-        /**
-         for (i = 0; i < m.size(); i++)
-         for (j = 0; j < m.size(); j++) {
-         if (m.get(i).get(j) == null) matrix[i][j] = -1;
-         else matrix[i][j] = m.matrix[i][j];
-         if ((i == j) && (m.matrix[i][j] == null)) matrix[i][j] = i;
-         }
-         try {
-         for (i = 0; i < size; i++)
-         for (j = 0; j < size; j++) {
-         if ((i != j) && ((int) matrix[i][j] < -1))
-         throw new IllegalArgumentException("Отрицательная дорога");
-         }
-         } catch (ClassCastException e) {
-         throw new IllegalArgumentException("Дорога это число!");
-         }
-         */
+
         for (i = 0; i < m.size(); i++)
             if (name.size() <= i) {
                 String str = java.lang.Integer.toString(i + 1);
@@ -148,9 +132,9 @@ public class Graph {
         }
         if (point == -1) throw new IllegalArgumentException("Нет такой вершины");
         ArrayList<Pair<String, Integer>> list = new ArrayList<>();
-        for (i = 0; i < this.getSize() - 1; i++) {
+        for (i = 0; i < this.getSize(); i++) {
             if (this.matrix.get(i).get(point) != null) {
-                list.add(new Pair(this.name.get(point) + "->" + this.name.get(i), this.matrix.get(i).get(point)));
+                list.add(new Pair(this.name.get(i), this.matrix.get(i).get(point)));
             }
         }
         return list;
@@ -164,9 +148,9 @@ public class Graph {
         }
         if (point == -1) throw new IllegalArgumentException("Нет такой вершины");
         ArrayList<Pair<String, Integer>> list = new ArrayList<>();
-        for (i = 0; i < this.getSize() - 1; i++) {
+        for (i = 0; i < this.getSize(); i++) {
             if (this.matrix.get(i).get(point) != null) {
-                list.add(new Pair(this.name.get(i) + "->" + this.name.get(point), this.matrix.get(point).get(i)));
+                list.add(new Pair(this.name.get(i), this.matrix.get(point).get(i)));
             }
         }
         return list;
@@ -274,7 +258,5 @@ public class Graph {
         Graph graph = new Graph(matr, nnnn);
         System.out.println(graph);
         System.out.println(graph.output("Kost"));
-
-        // String x = String.format("%02d", 1);//можно сократить toString
     }
 }
