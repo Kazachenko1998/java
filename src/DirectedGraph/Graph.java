@@ -7,17 +7,19 @@ import java.util.*;
 
 
 public class Graph {
-    //private final int size;
     private ArrayList<ArrayList<Integer>> matrix;
     private ArrayList<String> name;
 
     public Graph(ArrayList<ArrayList<Integer>> m, ArrayList<String> n) {//конструктор графа
         this.matrix = m;
         this.name = n;
-        //this.size = m.getSize();
         int i;
+        int size = -1;
 
-        for (i = 0; i < m.size(); i++)
+        for (i = 0; i < m.size(); i++) {
+            if (m.get(i).size() > size) size = m.get(i).size();
+        }
+        for (i = 0; i < size; i++)
             if (name.size() <= i) {
                 String str = java.lang.Integer.toString(i + 1);
                 this.name.add(str);
@@ -37,6 +39,42 @@ public class Graph {
                 list.add(null);
                 this.matrix.set(i, list);
             }
+
+    }
+
+    public Graph(int size) {
+
+        ArrayList<String> str = new ArrayList<>();
+        for (int i = 1; i <= size; i++) {
+            str.add(java.lang.Integer.toString(i));
+        }
+        this.name = str;
+        this.matrix = (new Graph(new ArrayList<>(), this.getName())).getMatrix();
+    }
+
+    public Graph(ArrayList<String> name) {
+        this.name = name;
+        this.matrix = (new Graph(new ArrayList<>(), this.getName())).getMatrix();
+    }
+
+    public Graph() {
+
+        this.name = new ArrayList<>();
+        this.matrix = (new Graph(new ArrayList<>(), this.getName())).getMatrix();
+    }
+
+    public Graph(Integer[][] matrix, ArrayList<String> name) {
+        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            matr.add(new ArrayList<>());
+            for (int j = 0; j < matrix[i].length; j++) {
+                ArrayList<Integer> list = matr.get(i);
+                list.add(matrix[i][j]);
+                matr.set(i, list);
+            }
+        }
+        this.name = (new Graph(matr, name)).getName();
+        this.matrix = (new Graph(matr, this.name)).getMatrix();
     }
 
 
@@ -71,7 +109,6 @@ public class Graph {
     }
 
     public Graph setMatrix(ArrayList<ArrayList<Integer>> matrix) {
-
         return new Graph(matrix, this.name);
     }
 
@@ -83,42 +120,46 @@ public class Graph {
     public String toString() {//вывод в консоли
         int i, j, k, p;
         StringBuilder sb = new StringBuilder();
-        sb.append("    ");
-        for (i = 0; i < this.name.size(); i++) {
-            sb.append("|" + this.name.get(i));
-            for (p = 0; p < 4 - this.name.get(i).length(); p++) {
-                sb.append(" ");
+        if (this.getSize() == 0) {
+            sb.append("Пустой граф" + "\n");
+        } else {
+            sb.append("    ");
+            for (i = 0; i < this.name.size(); i++) {
+                sb.append("|" + this.name.get(i));
+                for (p = 0; p < 4 - this.name.get(i).length(); p++) {
+                    sb.append(" ");
+                }
             }
-        }
-        sb.append("|" + "\n");
-        for (i = 0; i < this.name.size() * 5 + 5; i++) {
-            sb.append("_");
-        }
-        sb.append("\n");
-        for (i = 0; i < this.name.size(); i++) {
-            sb.append(this.name.get(i));
-            for (p = 0; p < 4 - this.name.get(i).length(); p++) {
-                sb.append(" ");
-            }
-            sb.append("|");
-            for (j = 0; j < this.name.size(); j++) {
-                if (this.matrix.get(i).get(j) != null) {
-                    sb.append(this.matrix.get(i).get(j));
-
-                    p = this.matrix.get(i).get(j);
-                    if (p < 0) p = -p * 10;
-                    k = 0;
-                    while (p > 0) {
-                        p /= 10;
-                        k++;
-                    }
-                    if (k == 0) k = 1;
-                    for (p = 0; p < 5 - k; p++) {
-                        sb.append(" ");
-                    }
-                } else sb.append("-    ");
+            sb.append("|" + "\n");
+            for (i = 0; i < this.name.size() * 5 + 5; i++) {
+                sb.append("_");
             }
             sb.append("\n");
+            for (i = 0; i < this.name.size(); i++) {
+                sb.append(this.name.get(i));
+                for (p = 0; p < 4 - this.name.get(i).length(); p++) {
+                    sb.append(" ");
+                }
+                sb.append("|");
+                for (j = 0; j < this.name.size(); j++) {
+                    if (this.matrix.get(i).get(j) != null) {
+                        sb.append(this.matrix.get(i).get(j));
+
+                        p = this.matrix.get(i).get(j);
+                        if (p < 0) p = -p * 10;
+                        k = 0;
+                        while (p > 0) {
+                            p /= 10;
+                            k++;
+                        }
+                        if (k == 0) k = 1;
+                        for (p = 0; p < 5 - k; p++) {
+                            sb.append(" ");
+                        }
+                    } else sb.append("-    ");
+                }
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }
@@ -159,14 +200,13 @@ public class Graph {
     public Graph addPoint(String nameP) {
         int i;
         this.matrix.add(new ArrayList<>());
-
-        for (i = 0; i < this.matrix.size()-1; i++) {
+        for (i = 0; i < this.matrix.size() - 1; i++) {
             ArrayList<Integer> list = this.matrix.get(i);
             list.add(null);
             this.matrix.set(i, list);
-            list = this.matrix.get(this.matrix.size()-1);
+            list = this.matrix.get(this.matrix.size() - 1);
             list.add(null);
-            this.matrix.set(this.matrix.size()-1, list);
+            this.matrix.set(this.matrix.size() - 1, list);
         }
         this.name.add(nameP);
         return new Graph(this.matrix, this.name);
@@ -182,7 +222,7 @@ public class Graph {
             throw new IllegalArgumentException("Не существует вершины");
         ArrayList<Integer> list = this.matrix.get(end1);
         list.remove(begin1);
-        list.add(begin1,value);
+        list.add(begin1, value);
         this.matrix.set(end1, list);
         return new Graph(this.matrix, this.name);
     }
@@ -254,7 +294,6 @@ public class Graph {
         nnnn.add("ghbd");
         nnnn.add("100");
         nnnn.add("rrr");
-
         Graph graph = new Graph(matr, nnnn);
         System.out.println(graph);
         System.out.println(graph.output("Kost"));
