@@ -436,4 +436,4 @@ public class Tests {
         Graph graph = new Graph(matr, nnnnT);
         assertEquals(graphTest.renamePoint("rrr", "Lena"), graph);
     }
-}
+    }
