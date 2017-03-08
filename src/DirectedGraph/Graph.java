@@ -7,15 +7,15 @@ import java.util.*;
 
 
 public class Graph {
-    private ArrayList<ArrayList<Integer>> matrix;
-    private ArrayList<String> name;
+    private List<List<Integer>> matrix;
+    private List<String> name;
 
-    public Graph(ArrayList<ArrayList<Integer>> m, ArrayList<String> n) {//конструктор графа
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+    public Graph(List<List<Integer>> m, List<String> n) {//конструктор графа
+        List<List<Integer>> matr = new ArrayList<>();
         for (int i = 0; i < m.size(); i++) {
             matr.add(new ArrayList<>());
             for (int j = 0; j < m.get(i).size(); j++) {
-                ArrayList<Integer> list = matr.get(i);
+                ArrayList<Integer> list = (ArrayList<Integer>) matr.get(i);
                 list.add(m.get(i).get(j));
                 matr.set(i, list);
             }
@@ -24,8 +24,7 @@ public class Graph {
         for (int i = 0; i < n.size(); i++) {
             str.add(n.get(i));
         }
-
-            this.matrix = matr;
+        this.matrix = matr;
         this.name = str;
         int i;
         int size = matr.size();
@@ -49,50 +48,36 @@ public class Graph {
 
         for (i = 0; i < str.size(); i++)
             for (int j = this.matrix.get(i).size(); j < str.size(); j++) {
-                ArrayList<Integer> list = this.matrix.get(i);
+                ArrayList<Integer> list = (ArrayList<Integer>) this.matrix.get(i);
                 list.add(null);
                 this.matrix.set(i, list);
             }
-        System.gc();
-    }
-
-    public Graph(int size) {
-        ArrayList<String> str = new ArrayList<>();
-        for (int i = 1; i <= size; i++) {
-            str.add(java.lang.Integer.toString(i));
-        }
-        this.name = str;
-        this.matrix = (new Graph(new ArrayList<>(), this.getName())).getMatrix();
-        System.gc();
     }
 
     public Graph(ArrayList<String> name) {
-        this.name = (new Graph(new ArrayList<>(), this.getName())).getName();
-        this.matrix = (new Graph(new ArrayList<>(), this.getName())).getMatrix();
-        System.gc();
+        this(new ArrayList<>(), name);
     }
 
     public Graph() {
-        this.name = new ArrayList<>();
-        this.matrix = (new Graph(new ArrayList<>(), this.getName())).getMatrix();
-        System.gc();
+        this(new ArrayList<>(), new ArrayList<>());
     }
 
-    public Graph(Integer[][] matrix, ArrayList<String> name) {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
-        for (int i = 0; i < matrix.length; i++) {
+    private static List<List<Integer>> Util(Integer[][] x) {
+        List<List<Integer>> matr = new ArrayList<>();
+        for (int i = 0; i < x.length; i++) {
             matr.add(new ArrayList<>());
-            for (int j = 0; j < matrix[i].length; j++) {
-                ArrayList<Integer> list = matr.get(i);
-                list.add(matrix[i][j]);
+            for (int j = 0; j < x[i].length; j++) {
+                List<Integer> list = matr.get(i);
+                list.add(x[i][j]);
                 matr.set(i, list);
             }
         }
-        this.name = (new Graph(matr, name)).getName();
-        this.matrix = (new Graph(matr, this.name)).getMatrix();
-        System.gc();
+        return matr;
     }
 
+    public Graph(Integer[][] matrix, ArrayList<String> name) {
+        this(Util(matrix), name);
+    }
 
 
     @Override
@@ -113,23 +98,37 @@ public class Graph {
         return result;
     }
 
-    public ArrayList<ArrayList<Integer>> getMatrix() {
-        return matrix;
+    public List<List<Integer>> getMatrix() {
+        List<List<Integer>> mmm = new ArrayList<>();
+        for (int i = 0; i < this.getSize(); i++) {
+            mmm.add(new ArrayList<>());
+            for (int j = 0; j < this.getSize(); j++) {
+                List<Integer> list = mmm.get(i);
+                list.add(this.matrix.get(i).get(j));
+                mmm.set(i, list);
+            }
+        }
+        return mmm;
     }
 
-    public ArrayList<String> getName() {
-        return name;
+    public List<String> getName() {
+        ArrayList<String> str = new ArrayList<>();
+        for (int i = 0; i < this.getSize(); i++) {
+            str.add(this.name.get(i));
+        }
+        return str;
     }
 
     public int getSize() {
         return this.matrix.size();
     }
 
-    public Graph setMatrix(ArrayList<ArrayList<Integer>> matrix) {
+    public Graph setMatrix(List<List<Integer>> matrix) {
+
         return new Graph(matrix, this.name);
     }
 
-    public Graph setName(ArrayList<String> name) {
+    public Graph setName(List<String> name) {
         return new Graph(this.matrix, name);
     }
 
@@ -181,64 +180,38 @@ public class Graph {
         return sb.toString();
     }
 
-    private Graph help(Graph graph){
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
-        for (int i = 0; i < graph.getMatrix().size(); i++) {
-            matr.add(new ArrayList<>());
-            for (int j = 0; j < graph.getMatrix().get(i).size(); j++) {
-                ArrayList<Integer> list = matr.get(i);
-                list.add(graph.getMatrix().get(i).get(j));
-                matr.set(i, list);
-            }
-        }
-        ArrayList<String> str = new ArrayList<>();
-        for (int i = 0; i < graph.getName().size(); i++) {
-            str.add(graph.getName().get(i));
-        }
-
-        graph.setMatrix(matr);
-        graph.setName(str);
+    private Graph help(Graph graph) {
         int i;
-        int size = matr.size();
-        for (i = 0; i < matr.size(); i++) {
-            if (matr.get(i).size() > size) size = matr.get(i).size();
+        int size = graph.name.size();
+        if (graph.matrix.size() > graph.name.size()) size = graph.matrix.size();
+        for (i = 0; i < graph.matrix.size(); i++) {
+            if (graph.matrix.get(i).size() > size) size = graph.matrix.get(i).size();
         }
 
+        for (i = graph.name.size(); i < size; i++) {
+            String str2 = java.lang.Integer.toString(i + 1);
+            graph.name.add(str2);
+        }
+        for (i = 0; i < graph.name.size(); i++)
+            if (graph.name.lastIndexOf(graph.name.get(i)) != i) throw new IllegalArgumentException("Повторение имени");
+        List<List<Integer>> mat = graph.matrix;
         for (i = 0; i < size; i++)
-            if (graph.getName().size() <= i) {
-                String str2 = java.lang.Integer.toString(i + 1);
-                ArrayList<String> str3 = graph.getName();
-                str3.add(str2);
-                graph.setName(str3);
-            }
-        Set<String> nameFailed = new HashSet<>();
-        for (i = 0; i < graph.getName().size(); i++) nameFailed.add(graph.getName().get(i));
-        if (graph.getName().size() != nameFailed.size()) throw new IllegalArgumentException("Повторение имени");
-        ArrayList<ArrayList<Integer>> mat = graph.getMatrix();
-        for (i = 0; i < str.size(); i++)
-            if (graph.getMatrix().size() <= i) {
-                mat.add(new ArrayList<>());
-            }
-        graph.setMatrix(mat);
-
-
-        for (i = 0; i < str.size(); i++)
-            for (int j = graph.getMatrix().get(i).size(); j < str.size(); j++) {
-                ArrayList<Integer> list = graph.getMatrix().get(i);
-                list.add(null);
-                mat.set(i, list);
-            }
-        graph.setMatrix(mat);
-        System.gc();
+            if (i >= graph.matrix.size()) mat.add(new ArrayList<>());
+        graph.matrix = mat;
+        for (i = 0; i < size; i++)
+            for (int j = 0; j < size; j++)
+                if (j >= graph.matrix.get(i).size()) {
+                    List<Integer> list = graph.matrix.get(i);
+                    list.add(null);
+                    mat.set(i, list);
+                }
+        graph.matrix = mat;
         return graph;
     }
 
-    public ArrayList<Pair<String, Integer>> output(String k) {
+    public List<Pair<String, Integer>> output(String k) {
         int i, point;
-        point = -1;
-        for (i = 0; i < this.getSize() - 1; i++) {
-            if (this.name.get(i) == k) point = i;
-        }
+        point = this.name.indexOf(k);
         if (point == -1) throw new IllegalArgumentException("Нет такой вершины");
         ArrayList<Pair<String, Integer>> list = new ArrayList<>();
         for (i = 0; i < this.getSize(); i++) {
@@ -249,12 +222,9 @@ public class Graph {
         return list;
     }
 
-    public ArrayList<Pair<String, Integer>> input(String k) {
+    public List<Pair<String, Integer>> input(String k) {
         int i, point;
-        point = -1;
-        for (i = 0; i < this.getSize() - 1; i++) {
-            if (this.name.get(i) == k) point = i;
-        }
+        point = this.name.indexOf(k);
         if (point == -1) throw new IllegalArgumentException("Нет такой вершины");
         ArrayList<Pair<String, Integer>> list = new ArrayList<>();
         for (i = 0; i < this.getSize(); i++) {
@@ -266,29 +236,16 @@ public class Graph {
     }
 
     public Graph addPoint(String nameP) {
-        int i;
-        this.matrix.add(new ArrayList<>());
-        for (i = 0; i < this.matrix.size() - 1; i++) {
-            ArrayList<Integer> list = this.matrix.get(i);
-            list.add(null);
-            this.matrix.set(i, list);
-            list = this.matrix.get(this.matrix.size() - 1);
-            list.add(null);
-            this.matrix.set(this.matrix.size() - 1, list);
-        }
         this.name.add(nameP);
         return help(this);
     }
 
     public Graph addTrack(String begin, String end, Integer value) {
-        int i, end1 = -1, begin1 = -1;
-        for (i = 0; i < this.matrix.size(); i++) {
-            if (this.name.get(i) == begin) begin1 = i;
-            if (this.name.get(i) == end) end1 = i;
-        }
+        int end1 = this.name.indexOf(end);
+        int begin1 = this.name.indexOf(begin);
         if ((end1 == -1) || (begin1 == -1))
             throw new IllegalArgumentException("Не существует вершины");
-        ArrayList<Integer> list = this.matrix.get(end1);
+        List<Integer> list = this.matrix.get(end1);
         list.remove(begin1);
         list.add(begin1, value);
         this.matrix.set(end1, list);
@@ -297,71 +254,63 @@ public class Graph {
 
     public Graph deleteTrack(String begin, String end) {
         this.addTrack(begin, end, null);
-        return help(this);
+        return this;
     }
 
     public Graph renameTrack(String begin, String end, Integer value) {
-        return new Graph(this.matrix, this.name).addTrack(begin,end,value);
+        return this.addTrack(begin, end, value);
     }
 
     public Graph renamePoint(String old, String now) {
-        int i, end1 = -1;
-        for (i = 0; i < this.matrix.size(); i++) {
-            if (this.name.get(i) == old) end1 = i;
-        }
+        int end1 = this.name.indexOf(old);
         if (end1 == -1)
             throw new IllegalArgumentException("Вершины не существует");
         this.name.set(end1, now);
-        Set<String> nameFailed = new HashSet<>();
-        for (i = 0; i < this.matrix.size(); i++) nameFailed.add(this.name.get(i));
-        if (name.size() != nameFailed.size()) throw new IllegalArgumentException("Такая вершина уже есть");
-        return help(this);
+        return help(this);//help для проверки на повтор
     }
 
     public Graph deletePoint(String Y) {//работает
-        int i, Point = -1;
-        for (i = 0; i < this.matrix.size(); i++) {
-            if (this.name.get(i) == Y) Point = i;
-        }
+        int i, Point;
+        Point = this.name.indexOf(Y);
         if (Point == -1)
             throw new IllegalArgumentException("Вершины не существует");
         for (i = 0; i < this.matrix.size(); i++) {
-            ArrayList<Integer> list = this.matrix.get(i);
+            List<Integer> list = this.matrix.get(i);
             list.remove(Point);
             this.matrix.set(i, list);
         }
         this.matrix.remove(Point);
         this.name.remove(Point);
-        return help(this);
+        return this;
     }
 
     public static void main(String[] D) {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
-        ArrayList<Integer> matr1 = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
+        List<Integer> matr1 = new ArrayList<>();
         matr1.add(0);
         matr1.add(2);
         matr1.add(-1);
         matr1.add(-1);
         matr.add(matr1);
-        ArrayList<Integer> matr2 = new ArrayList<>();
+        List<Integer> matr2 = new ArrayList<>();
         matr2.add(8);
         matr2.add(0);
         matr2.add(-1);
         matr2.add(2);
         matr.add(matr2);
-        ArrayList<Integer> matr3 = new ArrayList<>();
+        List<Integer> matr3 = new ArrayList<>();
         matr3.add(1111);
         matr3.add(-10);
         matr3.add(0);
         matr3.add(999);
         matr.add(matr3);
-        ArrayList<Integer> matr4 = new ArrayList<>();
+        List<Integer> matr4 = new ArrayList<>();
         matr4.add(-1);
         matr4.add(0);
         matr4.add(4);
         matr4.add(0);
         matr.add(matr4);
-        ArrayList<String> nnnn = new ArrayList<>();
+        List<String> nnnn = new ArrayList<>();
         nnnn.add("Kost");
         nnnn.add("ghbd");
         nnnn.add("100");
@@ -372,9 +321,9 @@ public class Graph {
         System.out.println(graph.input("Kost"));
         System.out.println(graph.addPoint("priv"));
         System.out.println(graph.deletePoint("priv"));
-        System.out.println(graph.renamePoint("Kost","Lena"));
-        System.out.println(graph.addTrack("Lena","100",8888));
-        System.out.println(graph.deleteTrack("Lena","100"));
-        System.out.println(graph.renameTrack("Lena","100",1000));
+        System.out.println(graph.renamePoint("Kost", "Lena"));
+        System.out.println(graph.addTrack("Lena", "100", 8888));
+        System.out.println(graph.deleteTrack("Lena", "100"));
+        System.out.println(graph.renameTrack("Lena", "100", 1000));
     }
 }

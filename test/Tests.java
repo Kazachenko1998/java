@@ -3,19 +3,21 @@ import DirectedGraph.Graph;
 import javafx.util.Pair;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
+
 import java.util.ArrayList;
+import java.util.List;
 public class Tests {
     @Test
     @Tag("deletePoint")
     void deletePoint() {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
-        ArrayList<Integer> matr1 = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
+        List<Integer> matr1 = new ArrayList<>();
         matr1.add(0);
         matr1.add(2);
         matr1.add(-1);
         matr1.add(-1);
         matr.add(matr1);
-        ArrayList<Integer> matr2 = new ArrayList<>();
+        List<Integer> matr2 = new ArrayList<>();
         matr2.add(8);
         matr2.add(0);
         matr2.add(-1);
@@ -40,7 +42,7 @@ public class Tests {
         nnnn.add("rrr");
         Graph graphTest = new Graph(matr, nnnn);
         Graph graph = new Graph(matr, nnnn);
-        ArrayList<ArrayList<Integer>> matr0 = new ArrayList<>();
+        List<List<Integer>> matr0 = new ArrayList<>();
         ArrayList<Integer> matr12 = new ArrayList<>();
         matr12.add(0, 0);
         matr12.add(1, 2);
@@ -66,7 +68,7 @@ public class Tests {
     @Test
     @Tag("addPoint")
     void addPoint() {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
         ArrayList<Integer> matr1 = new ArrayList<>();
         matr1.add(0);
         matr1.add(2);
@@ -93,7 +95,7 @@ public class Tests {
         nnnn.add("rrr");
         Graph graphTest = new Graph(matr, nnnn);
         Graph graph = new Graph(matr, nnnn);
-        ArrayList<ArrayList<Integer>> matr0 = new ArrayList<>();
+        List<List<Integer>> matr0 = new ArrayList<>();
         ArrayList<Integer> matr12 = new ArrayList<>();
         matr12.add(0, 0);
         matr12.add(1, 2);
@@ -119,7 +121,7 @@ public class Tests {
     @Test
     @Tag("addTrack")
     void addTrack() {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
         ArrayList<Integer> matr1 = new ArrayList<>();
         matr1.add(0);
         matr1.add(2);
@@ -151,7 +153,7 @@ public class Tests {
         nnnn.add("rrr");
         Graph graphTest = new Graph(matr, nnnn);
         Graph graph = new Graph(matr, nnnn);
-        ArrayList<ArrayList<Integer>> matr0 = new ArrayList<>();
+        List<List<Integer>> matr0 = new ArrayList<>();
         ArrayList<Integer> matr12 = new ArrayList<>();
         matr12.add(0, 0);
         matr12.add(1, 2);
@@ -187,7 +189,7 @@ public class Tests {
     @Test
     @Tag("renameTrack")
     void renameTrack() {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
         ArrayList<Integer> matr1 = new ArrayList<>();
         matr1.add(0);
         matr1.add(2);
@@ -219,7 +221,7 @@ public class Tests {
         nnnn.add("rrr");
         Graph graphTest = new Graph(matr, nnnn);
         Graph graph = new Graph(matr, nnnn);
-        ArrayList<ArrayList<Integer>> matr0 = new ArrayList<>();
+        List<List<Integer>> matr0 = new ArrayList<>();
         ArrayList<Integer> matr12 = new ArrayList<>();
         matr12.add(0, 0);
         matr12.add(1, 2);
@@ -256,7 +258,7 @@ public class Tests {
     @Test
     @Tag("renameTrack")
     void deleteTrack() {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
         ArrayList<Integer> matr1 = new ArrayList<>();
         matr1.add(0);
         matr1.add(2);
@@ -288,7 +290,7 @@ public class Tests {
         nnnn.add("rrr");
         Graph graphTest = new Graph(matr, nnnn);
         Graph graph = new Graph(matr, nnnn);
-        ArrayList<ArrayList<Integer>> matr0 = new ArrayList<>();
+        List<List<Integer>> matr0 = new ArrayList<>();
         ArrayList<Integer> matr12 = new ArrayList<>();
         matr12.add(0, 0);
         matr12.add(1, 2);
@@ -325,7 +327,7 @@ public class Tests {
     @Test
     @Tag("input")
     void input() {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
         ArrayList<Integer> matr1 = new ArrayList<>();
         matr1.add(0);
         matr1.add(2);
@@ -366,7 +368,7 @@ public class Tests {
     @Test
     @Tag("output")
     void output() {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
         ArrayList<Integer> matr1 = new ArrayList<>();
         ArrayList<Pair<String, Integer>> test = new ArrayList<>();
         matr1.add(0);
@@ -407,7 +409,7 @@ public class Tests {
     @Test
     @Tag("renamePoint")
     void renamePoint() {
-        ArrayList<ArrayList<Integer>> matr = new ArrayList<>();
+        List<List<Integer>> matr = new ArrayList<>();
         ArrayList<Integer> matr1 = new ArrayList<>();
         ArrayList<Integer> test = new ArrayList<>();
         matr1.add(0); matr1.add(2); matr1.add(-1);
