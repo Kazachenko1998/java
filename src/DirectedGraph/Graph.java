@@ -15,12 +15,12 @@ public class Graph {
         for (int i = 0; i < m.size(); i++) {
             matr.add(new ArrayList<>());
             for (int j = 0; j < m.get(i).size(); j++) {
-                ArrayList<Integer> list = (ArrayList<Integer>) matr.get(i);
+                List<Integer> list = matr.get(i);
                 list.add(m.get(i).get(j));
                 matr.set(i, list);
             }
         }
-        ArrayList<String> str = new ArrayList<>();
+        List<String> str = new ArrayList<>();
         for (int i = 0; i < n.size(); i++) {
             str.add(n.get(i));
         }
@@ -48,18 +48,23 @@ public class Graph {
 
         for (i = 0; i < str.size(); i++)
             for (int j = this.matrix.get(i).size(); j < str.size(); j++) {
-                ArrayList<Integer> list = (ArrayList<Integer>) this.matrix.get(i);
+                List<Integer> list = this.matrix.get(i);
                 list.add(null);
                 this.matrix.set(i, list);
             }
     }
 
-    public Graph(ArrayList<String> name) {
+    public Graph(List<String> name) {
         this(new ArrayList<>(), name);
     }
 
     public Graph() {
         this(new ArrayList<>(), new ArrayList<>());
+    }
+
+
+    public Graph(Integer[][] matrix, List<String> name) {
+        this(Util(matrix), name);
     }
 
     private static List<List<Integer>> Util(Integer[][] x) {
@@ -73,10 +78,6 @@ public class Graph {
             }
         }
         return matr;
-    }
-
-    public Graph(Integer[][] matrix, ArrayList<String> name) {
-        this(Util(matrix), name);
     }
 
 
@@ -112,7 +113,7 @@ public class Graph {
     }
 
     public List<String> getName() {
-        ArrayList<String> str = new ArrayList<>();
+        List<String> str = new ArrayList<>();
         for (int i = 0; i < this.getSize(); i++) {
             str.add(this.name.get(i));
         }
@@ -124,7 +125,6 @@ public class Graph {
     }
 
     public Graph setMatrix(List<List<Integer>> matrix) {
-
         return new Graph(matrix, this.name);
     }
 
@@ -213,7 +213,7 @@ public class Graph {
         int i, point;
         point = this.name.indexOf(k);
         if (point == -1) throw new IllegalArgumentException("Нет такой вершины");
-        ArrayList<Pair<String, Integer>> list = new ArrayList<>();
+        List<Pair<String, Integer>> list = new ArrayList<>();
         for (i = 0; i < this.getSize(); i++) {
             if (this.matrix.get(i).get(point) != null) {
                 list.add(new Pair(this.name.get(i), this.matrix.get(i).get(point)));
@@ -226,7 +226,7 @@ public class Graph {
         int i, point;
         point = this.name.indexOf(k);
         if (point == -1) throw new IllegalArgumentException("Нет такой вершины");
-        ArrayList<Pair<String, Integer>> list = new ArrayList<>();
+        List<Pair<String, Integer>> list = new ArrayList<>();
         for (i = 0; i < this.getSize(); i++) {
             if (this.matrix.get(i).get(point) != null) {
                 list.add(new Pair(this.name.get(i), this.matrix.get(point).get(i)));
@@ -237,7 +237,7 @@ public class Graph {
 
     public Graph addPoint(String nameP) {
         this.name.add(nameP);
-        return help(this);
+        return help(this);//help для добавл. путей
     }
 
     public Graph addTrack(String begin, String end, Integer value) {
