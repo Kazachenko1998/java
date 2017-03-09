@@ -187,7 +187,6 @@ public class Graph {
         for (i = 0; i < graph.matrix.size(); i++) {
             if (graph.matrix.get(i).size() > size) size = graph.matrix.get(i).size();
         }
-
         for (i = graph.name.size(); i < size; i++) {
             String str2 = java.lang.Integer.toString(i + 1);
             graph.name.add(str2);
