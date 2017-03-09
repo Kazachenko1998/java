@@ -3,14 +3,14 @@ import DirectedGraph.Graph;
 import javafx.util.Pair;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
-
 import java.util.ArrayList;
 import java.util.List;
+
 public class Tests {
     @Test
     @Tag("deletePoint")
     void deletePoint() {
-        List<List<Integer>> matr = new ArrayList<>();
+        ArrayList<List<Integer>> matr = new ArrayList<>();
         List<Integer> matr1 = new ArrayList<>();
         matr1.add(0);
         matr1.add(2);
@@ -23,7 +23,7 @@ public class Tests {
         matr2.add(-1);
         matr2.add(2);
         matr.add(matr2);
-        ArrayList<Integer> matr3 = new ArrayList<>();
+        List<Integer> matr3 = new ArrayList<>();
         matr3.add(1111);
         matr3.add(-10);
         matr3.add(0);
