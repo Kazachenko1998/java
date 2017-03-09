@@ -1,10 +1,8 @@
 package DirectedGraph;
 
-
 import javafx.util.Pair;
 
 import java.util.*;
-
 
 public class Graph {
     private List<List<Integer>> matrix;
@@ -64,10 +62,10 @@ public class Graph {
 
 
     public Graph(Integer[][] matrix, List<String> name) {
-        this(Util(matrix), name);
+        this(toArray(matrix), name);
     }
 
-    private static List<List<Integer>> Util(Integer[][] x) {
+    private static List<List<Integer>> toArray(Integer[][] x) {
         List<List<Integer>> matr = new ArrayList<>();
         for (int i = 0; i < x.length; i++) {
             matr.add(new ArrayList<>());
@@ -124,12 +122,14 @@ public class Graph {
         return this.matrix.size();
     }
 
-    public Graph setMatrix(List<List<Integer>> matrix) {
-        return new Graph(matrix, this.name);
+    public void setMatrix(List<List<Integer>> matrix) {
+        this.matrix = matrix;
+        this.help(this);
     }
 
-    public Graph setName(List<String> name) {
-        return new Graph(this.matrix, name);
+    public void setName(List<String> name) {
+        this.name = name;
+        this.help(this);
     }
 
     @Override
